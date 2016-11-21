@@ -1,0 +1,151 @@
+FORMAT: 1A
+
+# SAAO Publications
+
+An API for customising and executing queries for SAAO publications.
+
+## Keywords to search for [/keywords/]
+
+The keywords which are searched for. Subject to other search constraints, all the publications
+containing any of these keywords will be in the results of a publications query. A keyword may
+consist of multiple words (such as "South African Astronomical Observatory").
+
+### List of all keywords [GET]
+
+A list of all the keywords. For each keyword the keyword itself as well as its resource URI are
+included.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "keyword": "LCOGT",
+                "uri": "/keywords/1"
+            },
+            {
+                "keyword": "Sutherland",
+                "uri": "/keywords/2"
+            }
+        ]
+
+## Single keyword to search for [/keywords/{id}]
+
+One of the keywords to search for. 
+
++ Parameters
+
+    + id (string, required) - Internal id of the keyword
+
+### Create a new keyword [POST]
+
++ Request (application/json)
+
+        {
+            "keyword": "MONET"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Location: /keywords/3
+        
+    + Body
+
+            {
+                "keyword": "IRSF",
+            }
+        
+### Edit a keyword [PUT]
+
++ Request (application/json)
+
+        {
+            "keyword": "MONET-South"
+        }
+        
++ Response 200 (application/json)
+
+        {
+            "keyword": "MONET-South"
+        }
+
+### Delete a keyword [DELETE]
+
++ Response 200
+
+## Librarians [/librarians/]
+
+The list of all librarians who should receive the results of a publications query. Such a list
+may include people who are no librarian but should nonetheless receive the results. Each librarian
+has a given name, a surname and an email address.
+
+### List of all librarians [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "given_name": "Mary",
+                "surname": "Hawthorne",
+                "email": "mary@librarians.org",
+                "uri": "/librarians/1"
+            },
+            {
+                "given_name": "Siphokazi",
+                "surname": "Yengwa",
+                "email": "siphokazi@librarians.org",
+                "uri": "/librarians/2"
+            }
+        ]
+
+## Single librarian [/librarians/{id}]
+
++ Parameters
+
+    + id (string, required) - Internal id of the librararian
+
+### Create a new librarian [POST]
+
++ Request (application/json)
+
+        {
+            "given_name": "Peter",
+            "surname": "Simpson",
+            "email": "peter@librarians.org"
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+    
+            Location: /librarians/3
+            
+    + Body
+    
+            {
+                "given_name": "Peter",
+                "surname": "Simpson",
+                "email": "peter@librarians.org"
+            }
+
+### Edit a librarian [PUT]
+
++ Request (application/json)
+
+        {
+            "given_name": "Paul",
+            "email": "paul@#librarians.org"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "given_name": "Paul",
+            "surname": "Simpson",
+            "email": "paul@#librarians.org"
+        }
+        
+### Delete a librarian [DELETE]
+
++ Response 204
