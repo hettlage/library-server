@@ -38,6 +38,11 @@ def create_app(config_name):
     login_manager.init_app(app)
     migrate.init_app(app, db)
 
+    with app.app_context():
+        # Extensions like Flask-SQLAlchemy now know what the "current" app
+        # is while within this block. Therefore, you can now run........
+        from app.models import Librarian
+
     assets_config = os.path.join(os.path.dirname(__file__), os.pardir, 'webassets.yaml')
     assets._named_bundles = {}  # avoid duplicate registration in unit tests
     assets_loader = YAMLLoader(assets_config)
@@ -47,7 +52,7 @@ def create_app(config_name):
     if not app.debug and not app.testing and app.config['SSL_STATUS'] == SSLStatus.ENABLED:
         sslify = SSLify(app)
 
-    from .main import main as main_blueprint
+    from .api_v1 import api_v1 as main_blueprint
     app.register_blueprint(main_blueprint)
 
     from .auth import auth as auth_blueprint
